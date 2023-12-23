@@ -4,6 +4,7 @@ from matplotlib.pyplot import subplots, cm
 import matplotlib.pyplot as plt
 import sklearn.model_selection as skm
 from ISLP import load_data, confusion_table
+from sklearn.metrics import f1_score
 
 from sklearn.svm import SVC
 from sklearn.svm import SVR
@@ -47,5 +48,7 @@ print("Predict: ",y_hat_test)
 
 print("CONFUSION TABLE")
 print(confusion_table(y_hat_test , y_test))
+f_one = f1_score(y_hat_test, y_test)
+print("f1 score:", f_one)
 
 plt.show()

@@ -4,6 +4,7 @@ from matplotlib.pyplot import subplots
 import matplotlib.pyplot as plt
 from statsmodels.datasets import get_rdataset
 import sklearn.model_selection as skm
+from sklearn.metrics import f1_score
 from ISLP import load_data, confusion_table
 from ISLP.models import ModelSpec as MS
 
@@ -17,8 +18,6 @@ from ISLP.bart import BART
 #importing the files
 df_OSA = pd.read_excel("OSA_DB_UPM_Clean_men.xlsx")
 df_OSA['BMI'] = df_OSA.Weight / (df_OSA.Height/100)**2
-
-#df_OSA = pd.read_excel("OSA_extreme_male.xlsx")
 
 print(df_OSA.head())
 
@@ -93,7 +92,8 @@ grid = skm.GridSearchCV(RF_OSA, {'ccp_alpha': ccp_path.ccp_alphas},
 G = grid.fit(X_train, y_train)
 
 best_ = grid.best_estimator_
-mean = np.mean((df_OSA["IAH"] - best_.predict(X))**2)
+y_pred = best_.predict(X)
+mean = np.mean((df_OSA["IAH"] - y_pred)**2)
 
 print("mean forest after cv: ", mean)
 print("avg prediction error forest:", np.sqrt(mean))
